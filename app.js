@@ -18,6 +18,8 @@ const articleSchema = {
 
 const Article = mongoose.model("Article", articleSchema);
 
+
+
 app.get("/articles", (req, res) => {
   Article.find(function(err, results){
     if(!err){
@@ -26,6 +28,20 @@ app.get("/articles", (req, res) => {
         console.log(err);
     }
   });
+});
+
+app.post("/articles", (req, res)=>{
+    const article = new Article({
+        title : req.body.title,
+        content: req.body.content 
+    })
+    article.save((err, success)=>{
+        if(! err){
+            res.send("Successfully added a new article");
+        } else {
+            res.send(err);
+        }
+    })
 });
 
 app.listen(8000, () => {
