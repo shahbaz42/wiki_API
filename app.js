@@ -28,9 +28,8 @@ app.get("/articles", (req, res) => {
         console.log(err);
     }
   });
-});
-
-app.post("/articles", (req, res)=>{
+})
+.post("/articles", (req, res)=>{
     const article = new Article({
         title : req.body.title,
         content: req.body.content 
@@ -42,6 +41,15 @@ app.post("/articles", (req, res)=>{
             res.send(err);
         }
     })
+})
+.delete("/articles", (req, res)=>{
+    Article.deleteMany({}, function(err){
+        if(! err){
+            res.send("Successfully deleted all articles");
+        } else{
+            res.send(err);
+        }
+    });
 });
 
 app.listen(8000, () => {
