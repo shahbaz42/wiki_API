@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { userInfo } = require("os");
 
 app = express();
 
@@ -69,6 +68,22 @@ app
     });
   })
   .put(function (req, res) {
+    Article.replaceOne(
+      { title: req.params.articleTitle },
+      {
+        title: req.body.title,
+        content: req.body.content
+      },
+      (err, result) => {
+        if (!err) {
+          res.send("Successfully replaced");
+        } else {
+          res.send(err);
+        }
+      }
+    );
+  })
+  .put(function (req, res) {
     Article.updateOne(
       { title: req.params.articleTitle },
       {
@@ -77,12 +92,22 @@ app
       },
       (err, result) => {
         if (!err) {
-          res.send("Successfully updated");
+          res.send("Successfully updated selected article");
         } else {
           res.send(err);
         }
       }
     );
+  })
+  .delete(function(req, res){
+    const articleTitle = req.params.articleTitle;
+    Article.findOneAndDelete({title: articleTitle}, function(err){
+      if (!err){
+        res.send("Successfully deleted selected article.");
+      } else {
+        res.send(err);
+      }
+    });
   });
 
 app.listen(8000, () => {
