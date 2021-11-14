@@ -67,7 +67,7 @@ app
       }
     });
   })
-  .put(function (req, res) {
+  .put(function (req, res) {  // replace the article
     Article.replaceOne(
       { title: req.params.articleTitle },
       {
@@ -83,7 +83,7 @@ app
       }
     );
   })
-  .put(function (req, res) {
+  .put(function (req, res) {  // update the article
     Article.updateOne(
       { title: req.params.articleTitle },
       {
@@ -99,7 +99,7 @@ app
       }
     );
   })
-  .delete(function(req, res){
+  .delete(function(req, res){  // delete the article
     const articleTitle = req.params.articleTitle;
     Article.findOneAndDelete({title: articleTitle}, function(err){
       if (!err){
@@ -110,6 +110,6 @@ app
     });
   });
 
-app.listen(8000, () => {
+app.listen(8000, () => {  // listen on port 8000
   console.log("Server started on port 8000");
 });
