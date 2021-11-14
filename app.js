@@ -1,27 +1,27 @@
-const express = require("express");
-const mongoose = require("mongoose");
+const express = require("express");  // Express web server framework
+const mongoose = require("mongoose");  // MongoDB integration
 
-app = express();
+app = express();  // create an instance of express
 
-app.set("view-engine", "ejs");
+app.set("view-engine", "ejs");  // set the view engine to ejs
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));  // use express.urlencoded to parse the body of the request
 
-app.use(express.static("public"));
+app.use(express.static("public"));  // use express.static to serve static files
 
-mongoose.connect("mongodb://localhost:27017/wikiDB", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/wikiDB", { useNewUrlParser: true });  // connect to the database
 
-const articleSchema = {
+const articleSchema = {  // create the schema for the articles
   title: String,
   content: String,
 };
 
-const Article = mongoose.model("Article", articleSchema);
+const Article = mongoose.model("Article", articleSchema);  // create the model for the articles
 
 // Requests targetting all articles.
 
 app
-  .get("/articles", (req, res) => {
+  .get("/articles", (req, res) => {  // get all articles
     Article.find(function (err, results) {
       if (!err) {
         res.send(results);
@@ -30,7 +30,7 @@ app
       }
     });
   })
-  .post("/articles", (req, res) => {
+  .post("/articles", (req, res) => {  // create a new article
     const article = new Article({
       title: req.body.title,
       content: req.body.content,
@@ -43,7 +43,7 @@ app
       }
     });
   })
-  .delete("/articles", (req, res) => {
+  .delete("/articles", (req, res) => {  // delete all articles  
     Article.deleteMany({}, function (err) {
       if (!err) {
         res.send("Successfully deleted all articles");
@@ -56,10 +56,10 @@ app
 // Requests targetting a specific article
 
 app
-  .route("/articles/:articleTitle")
+  .route("/articles/:articleTitle") // route for specific article
 
   .get(function (req, res) {
-    Article.findOne({ title: req.params.articleTitle }, (err, found) => {
+    Article.findOne({ title: req.params.articleTitle }, (err, found) => { // find the article
       if (found) {
         res.send(found);
       } else {
